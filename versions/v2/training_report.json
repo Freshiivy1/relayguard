@@ -1,0 +1,75 @@
+{
+  "created_at": "2026-08-11T23:38:25.780869+00:00",
+  "duration_s": 155.2,
+  "user_samples": {
+    "total": 4,
+    "relay": 2,
+    "normal": 2,
+    "train": 4,
+    "holdout": 4,
+    "in_sample_metrics": true
+  },
+  "anchor": {
+    "train_files": 350,
+    "dev_files": 70
+  },
+  "train_windows": 1416,
+  "cnn": {
+    "lr": 0.0001,
+    "epochs": 3,
+    "batch": 16,
+    "best_anchor_dev_auc": 0.9933333333333333
+  },
+  "gbm": {
+    "trees": 191
+  },
+  "metrics": {
+    "anchor_dev": {
+      "n": 70,
+      "before": {
+        "auc": 0.9983333333333333,
+        "hit_at_fpr_2": 1.0,
+        "eer": 0.016666666666666666
+      },
+      "after": {
+        "auc": 0.995,
+        "hit_at_fpr_2": 1.0,
+        "eer": 0.016666666666666666
+      }
+    },
+    "user_holdout": {
+      "n": 4,
+      "in_sample": true,
+      "before": {
+        "normal": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "relay": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "overall": {
+          "n": 4,
+          "accuracy": 1.0
+        }
+      },
+      "after": {
+        "normal": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "relay": {
+          "n": 2,
+          "accuracy": 1.0
+        },
+        "overall": {
+          "n": 4,
+          "accuracy": 1.0
+        }
+      }
+    }
+  },
+  "warnings": [],
+  "version": 2
+}
