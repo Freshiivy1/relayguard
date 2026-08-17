@@ -1,0 +1,11 @@
+{
+  "theta_green": 0.1691,
+  "theta_red": 0.2107,
+  "dev_recall_at_red": 0.9,
+  "dev_fpr_at_red": 0.008333333333333333,
+  "dev_neg_below_green": 0.95,
+  "dev_relay_below_green": 0.075,
+  "smoothing_alpha": 0.4,
+  "n_dev_samples": 560,
+  "method": "Neyman-Pearson on dev: theta_red = 10th pct of relay fused scores (recall>=0.90); theta_green = 95th pct of non-relay fused scores"
+}

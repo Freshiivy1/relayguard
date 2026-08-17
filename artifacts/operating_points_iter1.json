@@ -1,0 +1,116 @@
+{
+  "tag": "iter1",
+  "detectors": {
+    "cnn": {
+      "theta_np": 0.6975636873056901,
+      "dev_recall": 0.9,
+      "dev_fpr": 0.014583333333333334,
+      "dev_fpr_hardneg_reverb": 0.025,
+      "dev_fpr_hardneg_car": 0.0,
+      "dev_fpr_hardneg_tv": 0.0,
+      "dev_fpr_direct": 0.0625,
+      "sim_test": {
+        "recall": 0.875,
+        "fpr": 0.0,
+        "overall": {
+          "auc": 0.9976825842696628,
+          "eer": 0.013904494382022483,
+          "hit_at_fpr_1": 0.975,
+          "hit_at_fpr_2": 0.975,
+          "hit_at_fpr_5": 0.975
+        },
+        "fpr_direct": 0.0,
+        "fpr_hardneg_headset": 0.0,
+        "fpr_hardneg_ns": 0.0,
+        "fpr_hardneg_reverb": 0.0,
+        "fpr_hardneg_tv": 0.0
+      },
+      "real_test": {
+        "recall": 0.9743589743589743,
+        "fpr": 0.0,
+        "overall": {
+          "auc": 1.0,
+          "eer": 0.0,
+          "hit_at_fpr_1": 1.0,
+          "hit_at_fpr_2": 1.0,
+          "hit_at_fpr_5": 1.0
+        },
+        "fpr_real_direct": 0.0
+      }
+    },
+    "gbm": {
+      "theta_np": 0.6110276806735997,
+      "dev_recall": 0.9,
+      "dev_fpr": 0.016666666666666666,
+      "dev_fpr_hardneg_reverb": 0.0375,
+      "dev_fpr_hardneg_car": 0.0,
+      "dev_fpr_hardneg_tv": 0.0,
+      "dev_fpr_direct": 0.0625,
+      "sim_test": {
+        "recall": 0.8625,
+        "fpr": 0.028089887640449437,
+        "overall": {
+          "auc": 0.9841643258426966,
+          "eer": 0.04887640449438205,
+          "hit_at_fpr_1": 0.6375,
+          "hit_at_fpr_2": 0.825,
+          "hit_at_fpr_5": 0.95
+        },
+        "fpr_direct": 0.05,
+        "fpr_hardneg_headset": 0.027777777777777776,
+        "fpr_hardneg_ns": 0.0,
+        "fpr_hardneg_reverb": 0.0625,
+        "fpr_hardneg_tv": 0.0
+      },
+      "real_test": {
+        "recall": 0.9807692307692307,
+        "fpr": 0.0,
+        "overall": {
+          "auc": 0.9999178172255095,
+          "eer": 0.0032051282051281937,
+          "hit_at_fpr_1": 0.9935897435897436,
+          "hit_at_fpr_2": 1.0,
+          "hit_at_fpr_5": 1.0
+        },
+        "fpr_real_direct": 0.0
+      }
+    },
+    "cnn_gbm_avg": {
+      "theta_np": 0.6787165552355919,
+      "dev_recall": 0.9,
+      "dev_fpr": 0.008333333333333333,
+      "dev_fpr_hardneg_reverb": 0.0,
+      "dev_fpr_hardneg_car": 0.0,
+      "dev_fpr_hardneg_tv": 0.0,
+      "dev_fpr_direct": 0.05,
+      "sim_test": {
+        "recall": 0.8375,
+        "fpr": 0.0,
+        "overall": {
+          "auc": 0.9964887640449438,
+          "eer": 0.023735955056179786,
+          "hit_at_fpr_1": 0.925,
+          "hit_at_fpr_2": 0.975,
+          "hit_at_fpr_5": 0.9875
+        },
+        "fpr_direct": 0.0,
+        "fpr_hardneg_headset": 0.0,
+        "fpr_hardneg_ns": 0.0,
+        "fpr_hardneg_reverb": 0.0,
+        "fpr_hardneg_tv": 0.0
+      },
+      "real_test": {
+        "recall": 0.9743589743589743,
+        "fpr": 0.0,
+        "overall": {
+          "auc": 1.0,
+          "eer": 0.0,
+          "hit_at_fpr_1": 1.0,
+          "hit_at_fpr_2": 1.0,
+          "hit_at_fpr_5": 1.0
+        },
+        "fpr_real_direct": 0.0
+      }
+    }
+  }
+}

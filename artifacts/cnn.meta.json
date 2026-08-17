@@ -1,0 +1,12 @@
+{
+  "arch": "RelayCNN",
+  "n_mels": 64,
+  "n_fft": 512,
+  "hop": 160,
+  "n_frames": 200,
+  "params": 101217,
+  "best_dev_auc": 0.9961458333333334,
+  "best_epoch": 10,
+  "seed": 0,
+  "task": "relay_vs_all"
+}
