@@ -1,0 +1,44 @@
+[
+  {
+    "file": "sim_relay_1.wav",
+    "label": "relay",
+    "description": "Simulated speakerphone relay (iphone_earpiece device, rt60 0.68s, mulaw codec chain) - held-out test split",
+    "expected": "RED"
+  },
+  {
+    "file": "sim_relay_2.wav",
+    "label": "relay",
+    "description": "Simulated speakerphone relay (budget_android speaker) - held-out test split",
+    "expected": "RED"
+  },
+  {
+    "file": "sim_direct.wav",
+    "label": "direct",
+    "description": "Simulated direct handset call (no relay, rt60 0.08s) - held-out test split",
+    "expected": "GREEN"
+  },
+  {
+    "file": "real_relay_1.wav",
+    "label": "relay",
+    "description": "Real phone-call audio played through a simulated budget_android speakerphone relay - held-out test slice",
+    "expected": "RED"
+  },
+  {
+    "file": "real_relay_2.wav",
+    "label": "relay",
+    "description": "Real phone-call audio played through a simulated iphone_earpiece relay (rt60 0.77s) - held-out test slice",
+    "expected": "RED"
+  },
+  {
+    "file": "real_direct_1.wav",
+    "label": "direct",
+    "description": "Real direct telephony audio (NCSU robocall dataset) - held-out test slice",
+    "expected": "GREEN"
+  },
+  {
+    "file": "real_direct_2.wav",
+    "label": "direct",
+    "description": "Real direct telephony audio (NCSU robocall dataset) - held-out test slice",
+    "expected": "GREEN"
+  }
+]

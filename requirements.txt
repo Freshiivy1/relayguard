@@ -1,0 +1,21 @@
+# RelayGuard runtime requirements (test console + API).
+# The runtime is TORCH-FREE: the CNN ships as artifacts/cnn.onnx and runs on
+# onnxruntime. torch is only needed for the Train tab's fine-tune job and the
+# offline training/eval CLIs — install it separately (CPU wheel):
+#   pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Other optional, NOT required at runtime:
+#   pyroomacoustics  - datagen only (relayguard.datagen.*, offline dataset building)
+#   speechbrain      - full voice biometrics for /enroll + identity scores in challenges
+numpy>=1.24
+scipy>=1.10
+soundfile>=0.12
+onnxruntime>=1.16
+scikit-learn>=1.3
+lightgbm>=4.0
+fastapi>=0.100
+uvicorn>=0.23
+pydantic>=2.0
+pyyaml>=6.0
+joblib>=1.3
+python-multipart>=0.0.6
+httpx>=0.24

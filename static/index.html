@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2333475b'/%3E%3Cpath d='M9 21v-5a7 7 0 0 1 14 0v5' fill='none' stroke='%23ffffff' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='16' cy='21' r='2.4' fill='%23ffffff'/%3E%3C/svg%3E">
+<title>RelayGuard — Call Screening Test Console</title>
+<style>
+  :root{
+    --ink:#33475b; --ink2:#5b7183; --mute:#8c9baa;
+    --line:#dfe5ea; --bg:#f2f5f7; --panel:#f6f8f9; --card:#ffffff;
+    --green-bg:#e8f0e8; --green-bd:#b9d2b9; --green-ink:#3c5f3c;
+    --amber-bg:#f5eeda; --amber-bd:#dcc99a; --amber-ink:#6d5a2a;
+    --red-bg:#f5e3e0; --red-bd:#dfb3ac; --red-ink:#7a4038;
+    --shadow:0 1px 2px rgba(51,71,91,.05),0 6px 18px rgba(51,71,91,.06);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       color:var(--ink);background:var(--bg);line-height:1.5}
+
+  /* ---------------- header ---------------- */
+  header{background:var(--card);border-bottom:1px solid var(--line)}
+  .header-inner{max-width:1060px;margin:0 auto;padding:20px 24px;display:flex;flex-wrap:wrap;gap:14px;
+    align-items:center;justify-content:space-between}
+  .brand .wordmark{font-size:22px;font-weight:700;letter-spacing:.2px}
+  .brand .wordmark span{color:var(--mute);font-weight:400}
+  .brand .sub{color:var(--ink2);font-size:13px;margin-top:2px}
+  .header-status{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end}
+  #health{display:flex;gap:8px;flex-wrap:wrap;font-size:12px}
+  .pill{border:1px solid var(--line);border-radius:20px;padding:3px 11px;color:var(--ink2);
+    background:var(--panel);font-size:12px;white-space:nowrap}
+  .pill.ok{border-color:var(--green-bd);color:var(--green-ink);background:var(--green-bg)}
+  .pill.off{border-color:var(--red-bd);color:var(--red-ink);background:var(--red-bg)}
+
+  /* ---------------- tabs ---------------- */
+  nav.tabs{background:var(--card);border-bottom:1px solid var(--line)}
+  .tabs-inner{max-width:1060px;margin:0 auto;padding:0 24px;display:flex;gap:2px;flex-wrap:wrap}
+  nav.tabs button{border:none;background:transparent;color:var(--ink2);padding:13px 18px;font-size:14px;
+    cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-family:inherit}
+  nav.tabs button:hover{color:var(--ink)}
+  nav.tabs button.active{color:var(--ink);font-weight:600;border-bottom-color:var(--ink)}
+  main{padding:26px 24px 40px;max-width:1060px;margin:0 auto}
+  section.tab{display:none}
+  section.tab.active{display:block}
+
+  /* ---------------- cards & controls ---------------- */
+  .card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin-bottom:20px;
+    background:var(--card);box-shadow:var(--shadow)}
+  .card h2{margin:0 0 12px;font-size:13px;color:var(--ink2);text-transform:uppercase;letter-spacing:.8px;font-weight:650}
+  .btn{border:1px solid var(--ink2);background:#fff;color:var(--ink);padding:9px 16px;border-radius:8px;
+       font-size:14px;cursor:pointer;font-family:inherit;transition:background .12s,border-color .12s}
+  .btn:hover{background:var(--panel)}
+  .btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .btn.primary:hover{background:var(--ink2);border-color:var(--ink2)}
+  .btn:disabled{opacity:.45;cursor:default}
+  .samples{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-top:12px}
+  .sample-btn{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--panel);
+    cursor:pointer;font-size:13px;color:var(--ink);text-align:left;font-family:inherit;transition:border-color .12s,background .12s}
+  .sample-btn:hover{border-color:var(--ink2);background:#fff}
+  .sample-btn .nm{font-weight:600;display:block;margin-bottom:4px}
+  .sample-btn .desc{font-size:11px;color:var(--mute);display:block;margin-bottom:6px;line-height:1.35}
+  .chip{display:inline-block;font-size:11px;font-weight:650;padding:1px 9px;border-radius:11px;border:1px solid;letter-spacing:.3px}
+  .chip.RED{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-ink)}
+  .chip.GREEN{background:var(--green-bg);border-color:var(--green-bd);color:var(--green-ink)}
+  .chip.CHALLENGE{background:var(--amber-bg);border-color:var(--amber-bd);color:var(--amber-ink)}
+  #dropzone{border:2px dashed var(--mute);border-radius:12px;padding:30px 20px;text-align:center;color:var(--ink2);
+    margin-top:8px;transition:background .15s,border-color .15s}
+  #dropzone.over{background:var(--panel);border-color:var(--ink2)}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+  .hint{font-size:12px;color:var(--mute)}
+  .err{background:var(--red-bg);border:1px solid var(--red-bd);color:var(--red-ink);border-radius:8px;
+       padding:10px 14px;margin:10px 0;font-size:14px;display:none}
+  .warn{background:var(--amber-bg);border:1px solid var(--amber-bd);color:var(--amber-ink);border-radius:8px;
+       padding:10px 14px;margin:10px 0;font-size:13px}
+  #spinner{display:none;align-items:center;gap:10px;color:var(--ink2);font-size:14px;margin:14px 0}
+  #spinner.on{display:flex}
+  .spin{width:18px;height:18px;border:3px solid var(--line);border-top-color:var(--ink2);border-radius:50%;
+    animation:rot 0.8s linear infinite;flex:none}
+  @keyframes rot{to{transform:rotate(360deg)}}
+
+  /* ---------------- verdict ---------------- */
+  #verdict{display:none}
+  .badge{display:inline-block;font-size:24px;font-weight:700;letter-spacing:1.5px;padding:12px 30px;
+    border-radius:12px;border:1px solid;min-width:170px;text-align:center}
+  .badge.GREEN{background:var(--green-bg);border-color:var(--green-bd);color:var(--green-ink)}
+  .badge.CHALLENGE{background:var(--amber-bg);border-color:var(--amber-bd);color:var(--amber-ink)}
+  .badge.RED{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-ink)}
+  .verdict-top{display:flex;gap:28px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+  .kv{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:.6px}
+  .kv b{color:var(--ink);font-size:18px;display:block;margin-top:2px;font-variant-numeric:tabular-nums}
+  #reason{font-size:13px;color:var(--ink2);margin-top:10px}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:6px 0;font-size:13px}
+  .bar-row .nm{width:180px;color:var(--ink2);text-align:right;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .bar-track{flex:1;height:14px;background:var(--panel);border-radius:7px;position:relative;border:1px solid var(--line)}
+  .bar-fill{position:absolute;left:0;top:0;bottom:0;border-radius:7px;background:var(--ink2)}
+  .bar-val{width:44px;font-variant-numeric:tabular-nums;color:var(--ink);flex:none}
+  canvas.chart{width:100%;border:1px solid var(--line);border-radius:8px;background:#fff}
+
+  /* ---------------- challenge ---------------- */
+  .digits{font-size:46px;font-weight:700;letter-spacing:14px;color:var(--ink);text-align:center;
+    padding:22px 12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;margin:14px 0;
+    font-variant-numeric:tabular-nums}
+  .v-badge{display:inline-block;font-size:17px;font-weight:700;padding:7px 18px;border-radius:8px;border:1px solid}
+  .v-badge.accept{background:var(--green-bg);border-color:var(--green-bd);color:var(--green-ink)}
+  .v-badge.retry{background:var(--amber-bg);border-color:var(--amber-bd);color:var(--amber-ink)}
+  .v-badge.reject{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-ink)}
+  table.resp{border-collapse:collapse;width:100%;margin-top:10px;font-size:13px}
+  table.resp td,table.resp th{border:1px solid var(--line);padding:7px 11px;text-align:left}
+  table.resp th{background:var(--panel);color:var(--ink2);font-weight:600;width:220px}
+  .hidden{display:none}
+  h3.sec{font-size:14px;color:var(--ink2);margin:18px 0 6px;border-top:1px solid var(--line);padding-top:14px}
+
+  /* ---------------- train tab ---------------- */
+  .field{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+  select,input[type=text]{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;
+    color:var(--ink);background:#fff;font-family:inherit}
+  input[type=text]{min-width:240px;flex:1}
+  .lbl-badge{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:12px;border:1px solid}
+  .lbl-badge.normal{background:var(--green-bg);border-color:var(--green-bd);color:var(--green-ink)}
+  .lbl-badge.relay{background:var(--red-bg);border-color:var(--red-bd);color:var(--red-ink)}
+  .progress{border:1px solid var(--line);border-radius:8px;height:18px;background:var(--panel);overflow:hidden;margin-top:10px}
+  .progress .fill{height:100%;width:0%;background:var(--ink2);transition:width .4s}
+  #tr-stage{font-size:13px;color:var(--ink2);margin-top:6px}
+  .table-wrap{overflow-x:auto;margin-top:10px}
+  table.samples-t{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap}
+  table.samples-t td,table.samples-t th{border:1px solid var(--line);padding:6px 10px;text-align:left}
+  table.samples-t th{background:var(--panel);color:var(--ink2);font-weight:600}
+  .del-btn{border:1px solid var(--red-bd);background:#fff;color:var(--red-ink);border-radius:6px;
+    padding:3px 10px;font-size:12px;cursor:pointer}
+  .del-btn:hover{background:var(--red-bg)}
+  #tr-qc .warn{margin:8px 0 0}
+
+  /* ---------------- about ---------------- */
+  #tab-about p{margin:10px 0;font-size:14px;color:var(--ink)}
+  #tab-about h3{font-size:14px;color:var(--ink);margin:22px 0 4px}
+  #tab-about ul{margin:8px 0;padding-left:22px;font-size:14px}
+  #tab-about li{margin:5px 0}
+  #tab-about code{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:12px}
+
+  footer{border-top:1px solid var(--line);background:var(--card);margin-top:8px}
+  .footer-inner{max-width:1060px;margin:0 auto;padding:16px 24px;font-size:12px;color:var(--mute);
+    display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between}
+
+  @media(max-width:640px){
+    .header-inner{padding:16px}
+    main{padding:18px 14px 32px}
+    .card{padding:16px}
+    .digits{font-size:32px;letter-spacing:7px}
+    .bar-row .nm{width:110px;font-size:12px}
+    .badge{font-size:19px;min-width:0;padding:10px 20px}
+    .verdict-top{gap:16px}
+    .samples{grid-template-columns:1fr 1fr}
+    nav.tabs button{padding:11px 12px;font-size:13px}
+    input[type=text]{min-width:0;width:100%}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div class="brand">
+      <div class="wordmark">Relay<span>Guard</span></div>
+      <div class="sub">Speakerphone-relay call detection &middot; live pipeline test console</div>
+    </div>
+    <div class="header-status">
+      <div id="health"><span class="pill">health: loading…</span></div>
+      <span id="backend-badge" class="pill">storage: checking…</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="tabs-inner">
+    <button id="tabbtn-analyze" class="active" onclick="showTab('analyze')">Analyze audio</button>
+    <button id="tabbtn-challenge" onclick="showTab('challenge')">Biometric challenge</button>
+    <button id="tabbtn-train" onclick="showTab('train')">Train</button>
+    <button id="tabbtn-about" onclick="showTab('about')">How it works</button>
+  </div>
+</nav>
+
+<main>
+<!-- ============================== TAB 1 ============================== -->
+<section id="tab-analyze" class="tab active">
+  <div class="card">
+    <h2>1. Pick a bundled sample</h2>
+    <div class="hint">Held-out test audio with known ground truth — click one to run the full detection pipeline and compare the verdict with the expected label.</div>
+    <div id="sample-list" class="samples"><span class="hint">loading samples…</span></div>
+  </div>
+  <div class="card">
+    <h2>2. …or upload / drop an audio file</h2>
+    <div id="dropzone">
+      Drag &amp; drop a WAV file here, or
+      <label class="btn" style="display:inline-block">browse<input id="file-input" type="file" accept="audio/*,.wav" style="display:none"></label>
+      <div class="hint" style="margin-top:8px">Any common audio format your browser can decode; resampled to 16 kHz mono automatically.</div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>3. …or record from your microphone</h2>
+    <div class="row">
+      <button class="btn" id="mic-btn" onclick="toggleMicRecord()">Start recording</button>
+      <span id="mic-status" class="hint">up to 15 seconds — speak, play audio on a speakerphone, or stay quiet</span>
+    </div>
+  </div>
+
+  <div id="analyze-err" class="err"></div>
+  <div id="spinner"><div class="spin"></div><span>Running detection pipeline…</span></div>
+
+  <div id="verdict">
+    <div class="card">
+      <h2>Verdict</h2>
+      <div class="verdict-top">
+        <span id="v-badge" class="badge GREEN">GREEN</span>
+        <canvas id="gauge" width="190" height="120"></canvas>
+        <div class="kv">fused score<b id="v-fused">–</b></div>
+        <div class="kv">confidence<b id="v-conf">–</b></div>
+        <div class="kv">duration<b id="v-dur">–</b></div>
+      </div>
+      <div id="v-degraded" class="warn hidden">Pipeline is running degraded: model artifacts or context detectors were not loaded. Scores may be unreliable.</div>
+      <div id="reason"></div>
+      <div id="v-sample" class="hint" style="margin-top:6px"></div>
+    </div>
+    <div class="card">
+      <h2>Per-window fused score over time</h2>
+      <canvas id="timeline" class="chart" width="900" height="240"></canvas>
+      <div class="hint" style="margin-top:6px">Solid line: EMA-smoothed fused score per analysis window (2 s window, 1 s hop). Dashed lines: decision thresholds &theta;<sub>green</sub> and &theta;<sub>red</sub>. A mid-call switch onto a speakerphone shows up as the curve crossing &theta;<sub>red</sub>.</div>
+    </div>
+    <div class="card">
+      <h2>Detector breakdown</h2>
+      <h3 class="sec" style="border:none;padding:0;margin-top:0">Window-level detectors (mean over windows)</h3>
+      <div id="win-bars"></div>
+      <h3 class="sec">Call-level context detectors</h3>
+      <div id="ctx-bars"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TAB 2 ============================== -->
+<section id="tab-challenge" class="tab">
+  <div class="card">
+    <h2>Biometric challenge-response</h2>
+    <div class="hint">The service generates 5 random digits with a short time-to-live. Read them aloud into your microphone and submit; the server checks net speech, digit content and (when voice biometrics are installed) speaker identity.</div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn primary" id="ch-start" onclick="startChallenge()">Start challenge</button>
+      <span id="ch-ttl" class="hint"></span>
+    </div>
+    <div id="ch-digits-wrap" class="hidden">
+      <div class="digits" id="ch-digits">– – – – –</div>
+      <div class="row">
+        <button class="btn" id="ch-rec-btn" onclick="toggleChallengeRecord()">Record response</button>
+        <span id="ch-rec-status" class="hint"></span>
+      </div>
+    </div>
+    <div id="ch-err" class="err"></div>
+    <div id="ch-spinner" style="display:none" class="row"><div class="spin"></div><span class="hint">Checking response…</span></div>
+  </div>
+  <div class="card hidden" id="ch-result-card">
+    <h2>Challenge result</h2>
+    <div class="row">
+      <span id="ch-verdict" class="v-badge accept">accept</span>
+      <button class="btn hidden" id="ch-retry" onclick="retryChallenge()">Try again (same session)</button>
+    </div>
+    <table class="resp">
+      <tr><th>net speech (s)</th><td id="ch-speech">–</td></tr>
+      <tr><th>content match</th><td id="ch-content">–</td></tr>
+      <tr><th>identity score</th><td id="ch-identity">–</td></tr>
+      <tr><th>relay context</th><td id="ch-relay">–</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- ============================== TAB 3 ============================== -->
+<section id="tab-train" class="tab">
+  <div class="card">
+    <h2>Learning mode</h2>
+    <div class="hint">Upload your own labeled audio (normal calls and speakerphone-relay calls), then press
+      <b>Train model</b>. The service fine-tunes the CNN and retrains the GBM on your data plus a built-in
+      anchor rehearsal set (so the model does not forget its original training), saves the result as a new
+      version, and hot-swaps it live. You can roll back to any previous version at any time.</div>
+    <div class="row" style="margin-top:12px">
+      <span id="tr-backend" class="pill">Storage: checking…</span>
+      <span id="tr-counts" class="hint"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>1. Upload a labeled sample</h2>
+    <div class="field">
+      <label class="btn" style="display:inline-block">choose audio file
+        <input id="tr-file" type="file" accept="audio/*,.wav" style="display:none"></label>
+      <button class="btn" id="tr-rec-btn" onclick="toggleTrainRecord()">Record from mic</button>
+      <span id="tr-rec-status" class="hint">2&ndash;120 s of call audio</span>
+    </div>
+    <div class="field">
+      <label for="tr-label" class="hint">This recording is a</label>
+      <select id="tr-label">
+        <option value="normal">Normal call</option>
+        <option value="relay">Speakerphone relay</option>
+      </select>
+      <input type="text" id="tr-notes" placeholder="notes (optional — e.g. device, room, distance)">
+    </div>
+    <div id="tr-err" class="err"></div>
+    <div id="tr-qc"></div>
+  </div>
+
+  <div class="card">
+    <h2>2. My samples</h2>
+    <div id="tr-samples"><span class="hint">loading…</span></div>
+  </div>
+
+  <div class="card">
+    <h2>3. Train model</h2>
+    <div class="hint">Fine-tunes on your samples + the anchor rehearsal set. Typically a few minutes; the
+      service keeps answering calls while training runs.</div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn primary" id="tr-train-btn" onclick="startTraining()">Train model</button>
+      <span id="tr-train-hint" class="hint"></span>
+    </div>
+    <div class="progress hidden" id="tr-progress"><div class="fill" id="tr-fill"></div></div>
+    <div id="tr-stage"></div>
+    <div id="tr-result"></div>
+  </div>
+
+  <div class="card">
+    <h2>4. Versions</h2>
+    <div class="hint">Version 0 is the base model shipped with the app. Each training run adds a version;
+      activating one hot-swaps the live pipeline immediately.</div>
+    <div class="field">
+      <select id="tr-versions"></select>
+      <button class="btn" id="tr-activate-btn" onclick="activateVersion()">Activate</button>
+      <span id="tr-active" class="hint"></span>
+    </div>
+  </div>
+</section>
+
+<!-- ============================== TAB 4 ============================== -->
+<section id="tab-about" class="tab">
+  <div class="card">
+    <h2>How RelayGuard works</h2>
+    <p><b>The threat.</b> A scammer (or a voice bot) can place a call and play it through a nearby
+    speakerphone, relaying audio from another room, another country, or a text-to-speech system.
+    The far-end channel betrays this: bandwidth limits, codec cascades, loudspeaker distortion,
+    room reverb and double-talk patterns that a normal handset call does not have.</p>
+
+    <h3>The three-state verdict</h3>
+    <p>Every call is windowed (2 s windows, 1 s hop) and fused into a single score, smoothed over
+    time and compared against two calibrated thresholds:</p>
+    <ul>
+      <li><b>GREEN</b> &mdash; score below &theta;<sub>green</sub>: the call looks like a normal direct call. Pass it through.</li>
+      <li><b>CHALLENGE</b> &mdash; between the thresholds: suspicious but not proven. Verify the caller instead of dropping the call.</li>
+      <li><b>RED</b> &mdash; score above &theta;<sub>red</sub>: speakerphone relay detected with high confidence. Flag or terminate.</li>
+    </ul>
+    <p>Thresholds are calibrated on a held-out dev set (Neyman&ndash;Pearson: high relay recall at a
+    controlled false-positive rate).</p>
+
+    <h3>The three evidence flags</h3>
+    <ul>
+      <li><b>Channel</b> &mdash; what the audio path itself reveals. Five window-level detectors (a CNN on
+      log-mel spectrograms, a gradient-boosted model on handcrafted telephony features, and
+      bandwidth / reverb / distortion forensics) plus call-level channel-switch detection catch the
+      acoustic fingerprint of a loudspeaker relay &mdash; including a switch onto one mid-call.</li>
+      <li><b>Identity</b> &mdash; who is speaking. When voice biometrics are installed, a speaker
+      voiceprint can be enrolled and a liveness challenge verifies the responder is the enrolled
+      human, not a replayed or synthesized voice.</li>
+      <li><b>Behavior</b> &mdash; how the call behaves. Conversation-coupling, background-scene tagging
+      and replay/quantization cues look for uncoupled rooms, TTS artifacts and other patterns that
+      accompany relayed or automated calls.</li>
+    </ul>
+    <p>A learned, calibrated fuser combines all of this evidence. Guardrails void evidence that
+    matches known benign confounders (car kits, headsets, aggressive noise suppression, uncoupled
+    background TV).</p>
+
+    <h3>Challenge, not terminate</h3>
+    <p>CHALLENGE is a second chance, not an accusation: the philosophy is to <b>challenge a
+    suspicious call, not terminate it</b>. The service speaks five random digits with a short
+    time-to-live; a live human next to the phone can simply repeat them, while a replayed or
+    piped-through bot typically fails the liveness, content, net-speech or identity check. Two
+    retries are allowed before rejection, so a momentary bad line does not cut off a legitimate
+    caller.</p>
+
+    <h3>Current limitations</h3>
+    <ul>
+      <li>Speaker identity and neural anti-spoofing are optional modules: without them the API
+      reports <code>degraded: true</code> or <code>identity: unavailable</code> rather than failing,
+      and challenge verdicts rely on liveness and content checks alone.</li>
+      <li>The models are trained on telephony-band audio (16 kHz mono); very short clips,
+      non-speech audio or heavy background noise reduce reliability.</li>
+      <li>Learning mode fine-tunes on your uploads plus a small anchor rehearsal set; with only a
+      handful of samples, before/after metrics are in-sample estimates, not guarantees.</li>
+      <li>Determined attackers with high-quality speaker rigs in quiet rooms remain hard to catch
+      &mdash; thresholds trade recall against false positives deliberately.</li>
+    </ul>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>RelayGuard test console &mdash; single-page UI over the FastAPI detection service</span>
+    <span>API docs at <a href="/docs" style="color:var(--ink2)">/docs</a> &middot; health at <a href="/health" style="color:var(--ink2)">/health</a></span>
+  </div>
+</footer>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const CTX_NAMES = new Set(["channel_switch","conversation_context","scene_context","antispoof_replay_cues"]);
+
+/* ---------------- tabs ---------------- */
+function showTab(name){
+  document.querySelectorAll("section.tab").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll("nav.tabs button").forEach(b=>b.classList.remove("active"));
+  $("tab-"+name).classList.add("active");
+  $("tabbtn-"+name).classList.add("active");
+}
+
+/* ---------------- health ---------------- */
+async function loadHealth(){
+  try{
+    const r = await fetch("/health");
+    const j = await r.json();
+    const mods = j.modules||{};
+    $("health").innerHTML = '<span class="pill ok">status: '+(j.status||"?")+'</span>' +
+      Object.entries(mods).map(([k,v])=>'<span class="pill '+(v?"ok":"off")+'">'+k+(v?"":" (degraded)")+'</span>').join("");
+  }catch(e){
+    $("health").innerHTML = '<span class="pill off">health: unreachable</span>';
+  }
+}
+
+/* ---------------- samples ---------------- */
+let SAMPLES = [];
+async function loadSamples(){
+  try{
+    const r = await fetch("/samples");
+    const j = await r.json();
+    SAMPLES = j.samples||[];
+    const box = $("sample-list");
+    if(!SAMPLES.length){ box.innerHTML = '<span class="hint">no bundled samples found</span>'; return; }
+    box.innerHTML = "";
+    for(const s of SAMPLES){
+      const stem = s.file.replace(/\.wav$/i,"");
+      const b = document.createElement("button");
+      b.className = "sample-btn";
+      b.title = s.description||"";
+      b.innerHTML = '<span class="nm">'+stem+'</span>'+
+        '<span class="desc">'+String(s.description||"").replace(/[<>&]/g,"")+'</span>'+
+        '<span class="chip '+(s.expected||"")+'">expected: '+(s.expected||s.label)+'</span>';
+      b.onclick = ()=>analyzeSample(stem);
+      box.appendChild(b);
+    }
+  }catch(e){
+    $("sample-list").innerHTML = '<span class="hint">could not load /samples</span>';
+  }
+}
+
+/* ---------------- analyze ---------------- */
+function showError(id,msg){ const e=$(id); e.textContent = msg; e.style.display = msg?"block":"none"; }
+function busy(on){
+  $("spinner").classList.toggle("on",on);
+  document.querySelectorAll("#tab-analyze button, #tab-analyze label.btn").forEach(b=>b.disabled=on);
+}
+
+async function analyzeSample(stem){
+  showError("analyze-err",""); busy(true);
+  try{
+    const r = await fetch("/analyze_sample?name="+encodeURIComponent(stem));
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    renderVerdict(j);
+  }catch(e){ showError("analyze-err","Analysis failed: "+e.message); }
+  finally{ busy(false); }
+}
+
+async function analyzeUpload(blob, filename){
+  showError("analyze-err",""); busy(true);
+  try{
+    const fd = new FormData();
+    fd.append("file", blob, filename||("recording_"+Date.now()+".wav"));
+    const r = await fetch("/analyze",{method:"POST",body:fd});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    renderVerdict(j);
+  }catch(e){ showError("analyze-err","Analysis failed: "+e.message); }
+  finally{ busy(false); }
+}
+
+function renderVerdict(j){
+  $("verdict").style.display = "block";
+  const badge = $("v-badge");
+  badge.textContent = j.state;
+  badge.className = "badge "+j.state;
+  $("v-fused").textContent = (j.fused_score!=null)? j.fused_score.toFixed(4) : "–";
+  $("v-conf").textContent = (j.confidence!=null)? (j.confidence*100).toFixed(1)+"%" : "–";
+  $("v-dur").textContent = (j.audio_s!=null)? j.audio_s.toFixed(1)+" s" : "–";
+  $("reason").textContent = j.reason ? ("why: "+j.reason) : "";
+  $("v-degraded").classList.toggle("hidden", !j.degraded);
+  $("v-sample").textContent = j.sample ? ("sample: "+j.sample.file+" — "+j.sample.description+" (expected "+j.sample.expected+")") : "";
+  const tl = j.timeline||{};
+  drawGauge($("gauge"), j.fused_score||0, j.state, tl.theta_green, tl.theta_red);
+  drawTimeline($("timeline"), tl);
+  renderBars(j.detectors||[]);
+  $("verdict").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function renderBars(detectors){
+  const agg = {};
+  for(const d of detectors){ (agg[d.name]=agg[d.name]||[]).push(d.score); }
+  const rows = Object.entries(agg).map(([name,arr])=>({name, mean: arr.reduce((a,b)=>a+b,0)/arr.length}));
+  const win = rows.filter(r=>!CTX_NAMES.has(r.name));
+  const ctx = rows.filter(r=> CTX_NAMES.has(r.name));
+  const fill = (el,list)=>{
+    el.innerHTML = list.length? "" : '<span class="hint">none reported</span>';
+    for(const r of list){
+      const div = document.createElement("div");
+      div.className = "bar-row";
+      div.innerHTML = '<div class="nm" title="'+r.name+'">'+r.name+'</div>'+
+        '<div class="bar-track"><div class="bar-fill" style="width:'+(100*r.mean).toFixed(1)+'%"></div></div>'+
+        '<div class="bar-val">'+r.mean.toFixed(2)+'</div>';
+      el.appendChild(div);
+    }
+  };
+  fill($("win-bars"), win);
+  fill($("ctx-bars"), ctx);
+}
+
+/* gauge: arc from 0..1 with theta markers */
+function drawGauge(cv, score, state, tg, tr){
+  const g = cv.getContext("2d"); const W=cv.width, H=cv.height; g.clearRect(0,0,W,H);
+  const cx=W/2, cy=H-14, R=Math.min(W/2-12, H-30);
+  const a0=Math.PI, a1=2*Math.PI;
+  const col = state==="RED" ? "#b06a5e" : state==="CHALLENGE" ? "#b39b57" : "#6f9a6f";
+  g.lineWidth=16; g.lineCap="round";
+  g.strokeStyle="#e4e9ed";
+  g.beginPath(); g.arc(cx,cy,R,a0,a1); g.stroke();
+  g.strokeStyle=col;
+  g.beginPath(); g.arc(cx,cy,R,a0,a0+(a1-a0)*Math.max(0,Math.min(1,score))); g.stroke();
+  g.lineWidth=2;
+  for(const [t,c] of [[tg,"#6f9a6f"],[tr,"#b06a5e"]]){
+    if(t==null) continue;
+    const a=a0+(a1-a0)*t;
+    g.strokeStyle=c;
+    g.beginPath();
+    g.moveTo(cx+(R-13)*Math.cos(a), cy+(R-13)*Math.sin(a));
+    g.lineTo(cx+(R+13)*Math.cos(a), cy+(R+13)*Math.sin(a));
+    g.stroke();
+  }
+  g.fillStyle="#33475b"; g.font="bold 20px sans-serif"; g.textAlign="center";
+  g.fillText((score*100).toFixed(1), cx, cy-8);
+  g.font="11px sans-serif"; g.fillStyle="#8c9baa";
+  g.fillText("fused score (0–100)", cx, cy+6);
+}
+
+/* timeline chart */
+function drawTimeline(cv, tl){
+  const g = cv.getContext("2d");
+  const dpr = window.devicePixelRatio||1;
+  const cssW = cv.clientWidth||900, cssH = 240;
+  cv.width = cssW*dpr; cv.height = cssH*dpr; g.scale(dpr,dpr);
+  g.clearRect(0,0,cssW,cssH);
+  const padL=44, padR=14, padT=14, padB=30;
+  const W=cssW-padL-padR, H=cssH-padT-padB;
+  const times = tl.window_start_s||[], fused = tl.fused||[], sm = tl.smoothed||[];
+  const tMax = Math.max(4, ...(times.length? [times[times.length-1]+2] : [4]));
+  const X = t => padL + W*(t/tMax);
+  const Y = v => padT + H*(1-Math.max(0,Math.min(1,v)));
+  // axes
+  g.strokeStyle="#dfe5ea"; g.fillStyle="#8c9baa"; g.font="11px sans-serif"; g.textAlign="right";
+  for(let v=0; v<=1.001; v+=0.25){
+    g.beginPath(); g.moveTo(padL,Y(v)); g.lineTo(padL+W,Y(v)); g.stroke();
+    g.fillText(v.toFixed(2), padL-6, Y(v)+3);
+  }
+  g.textAlign="center";
+  for(let t=0; t<=tMax; t+=Math.max(1,Math.round(tMax/8))){
+    g.fillText(t+"s", X(t), padT+H+16);
+  }
+  // threshold lines
+  const thr = (v,color,label,dy,dx)=>{
+    if(v==null) return;
+    g.strokeStyle=color; g.setLineDash([6,4]); g.lineWidth=1.5;
+    g.beginPath(); g.moveTo(padL,Y(v)); g.lineTo(padL+W,Y(v)); g.stroke();
+    g.setLineDash([]);
+    g.fillStyle=color; g.textAlign="left"; g.fillText(label, padL+(dx||4), Y(v)+(dy||-4));
+  };
+  thr(tl.theta_red,"#b06a5e","theta_red "+(tl.theta_red??""), -4, 4);
+  thr(tl.theta_green,"#6f9a6f","theta_green "+(tl.theta_green??""), 12, 4);
+  if(!times.length){ return; }
+  // raw fused (light)
+  g.strokeStyle="#8c9baa"; g.lineWidth=1.5; g.beginPath();
+  times.forEach((t,i)=>{ const x=X(t+1),y=Y(fused[i]); i?g.lineTo(x,y):g.moveTo(x,y); });
+  g.stroke();
+  // smoothed (bold)
+  g.strokeStyle="#33475b"; g.lineWidth=2.5; g.beginPath();
+  times.forEach((t,i)=>{ const x=X(t+1),y=Y(sm[i]??fused[i]); i?g.lineTo(x,y):g.moveTo(x,y); });
+  g.stroke();
+  g.fillStyle="#33475b";
+  times.forEach((t,i)=>{ g.beginPath(); g.arc(X(t+1),Y(sm[i]??fused[i]),3,0,7); g.fill(); });
+}
+
+/* ---------------- audio helpers: any blob -> 16 kHz mono WAV (PCM16) ---------------- */
+async function blobToWav(blob){
+  const AC = window.AudioContext || window.webkitAudioContext;
+  const ac = new AC();
+  try{
+    const buf = await blob.arrayBuffer();
+    const decoded = await ac.decodeAudioData(buf);
+    const sr = 16000;
+    const off = new OfflineAudioContext(1, Math.max(1,Math.ceil(decoded.duration*sr)), sr);
+    const src = off.createBufferSource(); src.buffer = decoded; src.connect(off.destination); src.start();
+    const rendered = await off.startRendering();
+    return encodeWavPCM16(rendered.getChannelData(0), sr);
+  } finally { ac.close && ac.close(); }
+}
+
+function encodeWavPCM16(samples, sr){
+  const n = samples.length;
+  const buf = new ArrayBuffer(44 + n*2);
+  const v = new DataView(buf);
+  const wstr = (off,s)=>{ for(let i=0;i<s.length;i++) v.setUint8(off+i, s.charCodeAt(i)); };
+  wstr(0,"RIFF"); v.setUint32(4, 36+n*2, true); wstr(8,"WAVE");
+  wstr(12,"fmt "); v.setUint32(16,16,true); v.setUint16(20,1,true); v.setUint16(22,1,true);
+  v.setUint32(24,sr,true); v.setUint32(28,sr*2,true); v.setUint16(32,2,true); v.setUint16(34,16,true);
+  wstr(36,"data"); v.setUint32(40,n*2,true);
+  for(let i=0;i<n;i++){
+    const s = Math.max(-1,Math.min(1,samples[i]));
+    v.setInt16(44+i*2, s<0 ? s*32768 : s*32767, true);
+  }
+  return new Blob([buf],{type:"audio/wav"});
+}
+
+/* ---------------- upload / dropzone ---------------- */
+$("file-input").addEventListener("change", async e=>{
+  const f = e.target.files[0]; e.target.value = "";
+  if(!f) return;
+  showError("analyze-err","");
+  try{ analyzeUpload(await blobToWav(f), f.name.replace(/\.[^.]+$/,"")+".wav"); }
+  catch(err){ showError("analyze-err","Could not decode that file in the browser: "+err.message); }
+});
+const dz = $("dropzone");
+["dragenter","dragover"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.add("over");}));
+["dragleave","drop"].forEach(ev=>dz.addEventListener(ev,e=>{e.preventDefault();dz.classList.remove("over");}));
+dz.addEventListener("drop", async e=>{
+  const f = e.dataTransfer.files && e.dataTransfer.files[0];
+  if(!f) return;
+  showError("analyze-err","");
+  try{ analyzeUpload(await blobToWav(f), f.name.replace(/\.[^.]+$/,"")+".wav"); }
+  catch(err){ showError("analyze-err","Could not decode that file in the browser: "+err.message); }
+});
+
+/* ---------------- microphone recording (shared) ---------------- */
+async function recordMic(maxMs, onTick){
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia)
+    throw new Error("Microphone access is not available in this browser (needs HTTPS or localhost).");
+  const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+  const mime = ["audio/webm;codecs=opus","audio/webm","audio/ogg;codecs=opus","audio/mp4"]
+    .find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m)) || "";
+  const rec = new MediaRecorder(stream, mime? {mimeType:mime}: undefined);
+  const chunks = [];
+  rec.ondataavailable = e=>{ if(e.data.size) chunks.push(e.data); };
+  const done = new Promise(res=>{ rec.onstop = res; });
+  const t0 = Date.now();
+  const timer = setInterval(()=>{
+    const left = Math.max(0, maxMs-(Date.now()-t0));
+    onTick && onTick(left/1000);
+    if(left<=0){ clearInterval(timer); if(rec.state!=="inactive") rec.stop(); }
+  }, 200);
+  rec.start(250);
+  return {
+    stop(){ clearInterval(timer); if(rec.state!=="inactive") rec.stop(); },
+    async wav(){
+      await done;
+      stream.getTracks().forEach(t=>t.stop());
+      if(!chunks.length) throw new Error("nothing was recorded");
+      return blobToWav(new Blob(chunks,{type: rec.mimeType||mime||"audio/webm"}));
+    }
+  };
+}
+
+let micSession = null;
+async function toggleMicRecord(){
+  const btn = $("mic-btn"), st = $("mic-status");
+  if(micSession){ micSession.stop(); return; }
+  showError("analyze-err","");
+  try{
+    micSession = await recordMic(15000, s=>{ st.textContent = "recording… "+s.toFixed(0)+"s left (click stop to analyze now)"; });
+  }catch(e){ showError("analyze-err", e.message); micSession=null; return; }
+  btn.textContent = "Stop & analyze"; btn.classList.add("primary");
+  st.textContent = "recording…";
+  const wavBlob = await micSession.wav();
+  micSession = null;
+  btn.textContent = "Start recording"; btn.classList.remove("primary");
+  st.textContent = "up to 15 seconds — speak, play audio on a speakerphone, or stay quiet";
+  analyzeUpload(wavBlob, "mic_recording.wav");
+}
+
+/* ---------------- challenge tab ---------------- */
+let chSession = null;      // {session_id, expires_at}
+let chRec = null;
+let chTtlTimer = null;
+
+async function startChallenge(){
+  showError("ch-err","");
+  try{
+    const r = await fetch("/challenge/start",{method:"POST",headers:{"Content-Type":"application/json"},body:"{}"});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    chSession = j;
+    $("ch-digits").textContent = j.digit_string.split("").join(" ");
+    $("ch-digits-wrap").classList.remove("hidden");
+    $("ch-result-card").classList.add("hidden");
+    tickTtl();
+    clearInterval(chTtlTimer);
+    chTtlTimer = setInterval(tickTtl, 500);
+  }catch(e){ showError("ch-err","Could not start challenge: "+e.message); }
+}
+
+function tickTtl(){
+  if(!chSession){ $("ch-ttl").textContent=""; return; }
+  const left = Math.max(0, chSession.expires_at - Date.now()/1000);
+  $("ch-ttl").textContent = left>0 ? ("session expires in "+left.toFixed(0)+" s") : "session expired — start a new challenge";
+  if(left<=0) clearInterval(chTtlTimer);
+}
+
+async function toggleChallengeRecord(){
+  const btn = $("ch-rec-btn"), st = $("ch-rec-status");
+  if(chRec){ chRec.stop(); return; }
+  showError("ch-err","");
+  if(!chSession){ showError("ch-err","Start a challenge first."); return; }
+  try{
+    chRec = await recordMic(15000, s=>{ st.textContent = "recording… "+s.toFixed(0)+"s left (click stop to submit)"; });
+  }catch(e){ showError("ch-err", e.message); chRec=null; return; }
+  btn.textContent = "Stop & submit"; btn.classList.add("primary");
+  st.textContent = "recording… say the digits clearly";
+  const wavBlob = await chRec.wav();
+  chRec = null;
+  btn.textContent = "Record response"; btn.classList.remove("primary");
+  st.textContent = "";
+  submitChallenge(wavBlob);
+}
+
+async function submitChallenge(wavBlob){
+  if(!chSession){ showError("ch-err","Start a challenge first."); return; }
+  showError("ch-err",""); $("ch-spinner").style.display="flex";
+  try{
+    const fd = new FormData();
+    fd.append("session_id", chSession.session_id);
+    fd.append("file", wavBlob, "challenge_response.wav");
+    const r = await fetch("/challenge/respond",{method:"POST",body:fd});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    renderChallenge(j);
+  }catch(e){ showError("ch-err","Challenge response failed: "+e.message); }
+  finally{ $("ch-spinner").style.display="none"; }
+}
+
+function renderChallenge(j){
+  $("ch-result-card").classList.remove("hidden");
+  const b = $("ch-verdict");
+  b.textContent = j.verdict; b.className = "v-badge "+j.verdict;
+  $("ch-speech").textContent = (j.net_speech_s!=null? j.net_speech_s.toFixed(2)+" s" : "–");
+  $("ch-content").textContent = j.content_match===null||j.content_match===undefined
+    ? "not checked (content checker unavailable)" : (j.content_match? "match" : "MISMATCH");
+  $("ch-identity").textContent = j.identity_score===null||j.identity_score===undefined
+    ? "unavailable (install speechbrain)" : j.identity_score.toFixed(3);
+  if(j.relay_context){
+    const rc = j.relay_context;
+    $("ch-relay").textContent = rc.state+" (fused "+(rc.fused_score!=null?rc.fused_score.toFixed(3):"?")+")"+(rc.degraded?" — degraded":"");
+  }else{
+    $("ch-relay").textContent = "not computed (no voiceprint enrolled for this session)";
+  }
+  $("ch-retry").classList.toggle("hidden", j.verdict!=="retry");
+}
+
+function retryChallenge(){
+  $("ch-result-card").classList.add("hidden");
+  $("ch-digits-wrap").classList.remove("hidden");
+}
+
+/* ---------------- train tab ---------------- */
+function fmtDate(iso){
+  if(!iso) return "–";
+  const d = new Date(iso);
+  return isNaN(d) ? String(iso).slice(0,16) : d.toLocaleString();
+}
+
+async function loadTrainBackend(){
+  const hdr = $("backend-badge");
+  try{
+    const r = await fetch("/training/backend");
+    const j = await r.json();
+    const el = $("tr-backend");
+    if(j.backend === "supabase"){
+      el.textContent = "Storage: Supabase";
+      el.className = "pill ok";
+      hdr.textContent = "storage: supabase";
+      hdr.className = "pill ok";
+    }else{
+      el.textContent = "Storage: local (connect Supabase for cloud persistence)";
+      el.className = "pill";
+      hdr.textContent = "storage: local";
+      hdr.className = "pill";
+    }
+  }catch(e){
+    $("tr-backend").textContent = "Storage: unavailable";
+    $("tr-backend").className = "pill off";
+    hdr.textContent = "storage: unavailable";
+    hdr.className = "pill off";
+  }
+}
+
+async function loadTrainSamples(){
+  try{
+    const r = await fetch("/training/samples");
+    const j = await r.json();
+    const rows = j.samples||[];
+    const c = j.counts_by_label||{};
+    $("tr-counts").textContent = rows.length
+      ? (rows.length+" sample"+(rows.length>1?"s":"")+" — normal: "+(c.normal||0)+", relay: "+(c.relay||0))
+      : "no samples yet";
+    const box = $("tr-samples");
+    if(!rows.length){ box.innerHTML = '<span class="hint">no samples yet — upload or record some above</span>'; return; }
+    let html = '<div class="table-wrap"><table class="samples-t"><tr><th>label</th><th>duration</th><th>net speech</th><th>QC</th><th>uploaded</th><th>notes</th><th></th></tr>';
+    for(const s of rows){
+      const qc = s.qc_json||{};
+      const qcBits = [];
+      if(qc.bandwidth) qcBits.push(qc.bandwidth);
+      if(qc.clipping) qcBits.push("clipping");
+      if(qc.rms_dbfs!=null) qcBits.push(qc.rms_dbfs+" dBFS");
+      html += "<tr><td><span class='lbl-badge "+s.label+"'>"+(s.label==="relay"?"relay":"normal")+"</span></td>"+
+        "<td>"+(s.duration_s!=null? Number(s.duration_s).toFixed(1)+" s":"–")+"</td>"+
+        "<td>"+(s.net_speech_s!=null? Number(s.net_speech_s).toFixed(1)+" s":"–")+"</td>"+
+        "<td>"+(qcBits.join(", ")||"ok")+"</td>"+
+        "<td>"+fmtDate(s.created_at)+"</td>"+
+        "<td>"+(s.notes? String(s.notes).replace(/[<>&]/g,"") : "")+"</td>"+
+        "<td><button class='del-btn' onclick=\"deleteSample('"+s.id+"')\">delete</button></td></tr>";
+    }
+    box.innerHTML = html + "</table></div>";
+  }catch(e){
+    $("tr-samples").innerHTML = '<span class="hint">could not load samples</span>';
+  }
+}
+
+async function trainUpload(blob, filename){
+  showError("tr-err","");
+  try{
+    const fd = new FormData();
+    fd.append("file", blob, filename||("training_"+Date.now()+".wav"));
+    fd.append("label", $("tr-label").value);
+    fd.append("notes", $("tr-notes").value||"");
+    const r = await fetch("/training/upload",{method:"POST",body:fd});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    const qc = j.qc||{};
+    let html = '<table class="resp"><tr><th>stored</th><td>'+j.sample_id.slice(0,8)+'… ('+j.backend+')</td></tr>'+
+      "<tr><th>duration</th><td>"+qc.duration_s+" s</td></tr>"+
+      "<tr><th>net speech</th><td>"+qc.net_speech_s+" s</td></tr>"+
+      "<tr><th>level</th><td>"+qc.rms_dbfs+" dBFS RMS, peak "+qc.peak+"</td></tr>"+
+      "<tr><th>bandwidth</th><td>"+qc.bandwidth+"</td></tr></table>";
+    for(const w of (j.warnings||[])) html += '<div class="warn">'+w+'</div>';
+    $("tr-qc").innerHTML = html;
+    loadTrainSamples();
+  }catch(e){ showError("tr-err","Upload failed: "+e.message); }
+}
+
+$("tr-file").addEventListener("change", async e=>{
+  const f = e.target.files[0]; e.target.value = "";
+  if(!f) return;
+  showError("tr-err","");
+  try{ trainUpload(await blobToWav(f), f.name.replace(/\.[^.]+$/,"")+".wav"); }
+  catch(err){ showError("tr-err","Could not decode that file in the browser: "+err.message); }
+});
+
+let trRec = null;
+async function toggleTrainRecord(){
+  const btn = $("tr-rec-btn"), st = $("tr-rec-status");
+  if(trRec){ trRec.stop(); return; }
+  showError("tr-err","");
+  try{
+    trRec = await recordMic(120000, s=>{ st.textContent = "recording… "+s.toFixed(0)+"s left (click stop to finish)"; });
+  }catch(e){ showError("tr-err", e.message); trRec=null; return; }
+  btn.textContent = "Stop & upload"; btn.classList.add("primary");
+  st.textContent = "recording…";
+  const wavBlob = await trRec.wav();
+  trRec = null;
+  btn.textContent = "Record from mic"; btn.classList.remove("primary");
+  st.textContent = "2–120 s of call audio";
+  trainUpload(wavBlob, "mic_training.wav");
+}
+
+async function deleteSample(id){
+  showError("tr-err","");
+  try{
+    const r = await fetch("/training/sample/"+encodeURIComponent(id),{method:"DELETE"});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    loadTrainSamples();
+  }catch(e){ showError("tr-err","Delete failed: "+e.message); }
+}
+
+let trPoll = null;
+async function startTraining(){
+  showError("tr-err","");
+  try{
+    const r = await fetch("/training/start",{method:"POST"});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    $("tr-train-btn").disabled = true;
+    $("tr-train-hint").textContent = "job "+j.job_id.slice(0,8)+"…";
+    $("tr-result").innerHTML = "";
+    $("tr-progress").classList.remove("hidden");
+    clearInterval(trPoll);
+    trPoll = setInterval(pollTraining, 1000);
+    pollTraining();
+  }catch(e){ showError("tr-err","Could not start training: "+e.message); }
+}
+
+async function pollTraining(){
+  try{
+    const r = await fetch("/training/status");
+    const j = await r.json();
+    $("tr-fill").style.width = (100*(j.progress||0)).toFixed(0)+"%";
+    $("tr-stage").textContent = j.stage||"";
+    if(j.state === "done"){
+      clearInterval(trPoll);
+      $("tr-train-btn").disabled = false;
+      $("tr-train-hint").textContent = "";
+      renderTrainResult(j.result||{});
+      loadVersions();
+    }else if(j.state === "error"){
+      clearInterval(trPoll);
+      $("tr-train-btn").disabled = false;
+      $("tr-train-hint").textContent = "";
+      showError("tr-err","Training failed: "+(j.error||"unknown error"));
+    }
+  }catch(e){ /* keep polling through transient errors */ }
+}
+
+function metricCell(m){ return m==null ? "–" : (typeof m === "number" ? m.toFixed(4) : m); }
+
+function renderTrainResult(rep){
+  const m = rep.metrics||{};
+  const a = m.anchor_dev||{}, u = m.user_holdout||{};
+  const us = rep.user_samples||{};
+  const acc = x => x==null ? "–" : (100*x).toFixed(1)+"%";
+  let html = '<h3 class="sec">Training complete — new version v'+(rep.version!=null?rep.version:"?")+
+    " ("+(rep.duration_s!=null?rep.duration_s.toFixed(0):"?")+" s)</h3>";
+  html += '<table class="resp"><tr><th>metric</th><th>before</th><th>after</th></tr>';
+  html += "<tr><td>anchor dev AUC (n="+(a.n||0)+")</td><td>"+metricCell((a.before||{}).auc)+"</td><td>"+metricCell((a.after||{}).auc)+"</td></tr>";
+  html += "<tr><td>anchor dev hit@2%FPR</td><td>"+metricCell((a.before||{}).hit_at_fpr_2)+"</td><td>"+metricCell((a.after||{}).hit_at_fpr_2)+"</td></tr>";
+  const ub = (u.before||{}).overall||{}, ua = (u.after||{}).overall||{};
+  html += "<tr><td>your holdout accuracy (n="+(u.n||0)+(u.in_sample?", in-sample":"")+")</td><td>"+acc(ub.accuracy)+"</td><td>"+acc(ua.accuracy)+"</td></tr>";
+  const ubN = (u.before||{}).normal||{}, uaN = (u.after||{}).normal||{};
+  const ubR = (u.before||{}).relay||{}, uaR = (u.after||{}).relay||{};
+  html += "<tr><td>&nbsp;&nbsp;normal accuracy (n="+(ubN.n||0)+")</td><td>"+acc(ubN.accuracy)+"</td><td>"+acc(uaN.accuracy)+"</td></tr>";
+  html += "<tr><td>&nbsp;&nbsp;relay accuracy (n="+(ubR.n||0)+")</td><td>"+acc(ubR.accuracy)+"</td><td>"+acc(uaR.accuracy)+"</td></tr>";
+  html += "</table>";
+  html += '<div class="hint" style="margin-top:6px">trained on '+(rep.train_windows||"?")+" windows — your samples: "+
+    (us.total||0)+" ("+(us.normal||0)+" normal, "+(us.relay||0)+" relay); anchor rehearsal: "+
+    ((rep.anchor||{}).train_files||0)+" files. The new version is live now.</div>";
+  for(const w of (rep.warnings||[])) html += '<div class="warn">'+w+'</div>';
+  $("tr-result").innerHTML = html;
+}
+
+async function loadVersions(){
+  try{
+    const r = await fetch("/training/versions");
+    const j = await r.json();
+    const sel = $("tr-versions");
+    sel.innerHTML = "";
+    const mk = (v,label)=>{ const o=document.createElement("option"); o.value=v; o.textContent=label; sel.appendChild(o); };
+    mk(0, "v0 — base model (shipped)");
+    for(const v of (j.versions||[])){
+      mk(v.version, "v"+v.version+" — trained "+fmtDate(v.created_at)+" ("+((v.user_samples||{}).total||0)+" user samples)");
+    }
+    sel.value = j.active;
+    $("tr-active").textContent = "active: v"+j.active;
+  }catch(e){
+    $("tr-active").textContent = "versions unavailable";
+  }
+}
+
+async function activateVersion(){
+  showError("tr-err","");
+  const v = $("tr-versions").value;
+  try{
+    const r = await fetch("/training/activate?version="+encodeURIComponent(v),{method:"POST"});
+    const j = await r.json();
+    if(!r.ok) throw new Error(j.detail||("HTTP "+r.status));
+    $("tr-active").textContent = "active: v"+j.active_version+" (hot-swapped)";
+    loadVersions();
+  }catch(e){ showError("tr-err","Activate failed: "+e.message); }
+}
+
+/* ---------------- init ---------------- */
+loadHealth();
+loadSamples();
+loadTrainBackend();
+loadTrainSamples();
+loadVersions();
+</script>
+</body>
+</html>

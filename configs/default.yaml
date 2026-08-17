@@ -1,0 +1,22 @@
+audio:
+  hop_s: 1.0
+  sample_rate: 16000
+  window_s: 2.0
+biometrics:
+  challenge_digits: 5
+  challenge_ttl_s: 30
+  max_retries: 2
+  min_net_speech_s: 3.0
+fusion:
+  calibrators_path: artifacts/calibrators.joblib
+  fallback_weights:
+    bandwidth_forensics: 0.1
+    channel_switch: 0.05
+    cnn: 0.35
+    distortion: 0.1
+    gbm: 0.25
+    reverb: 0.1
+    scene_context: 0.05
+  smoothing_alpha: 0.4
+  theta_green: 0.1691
+  theta_red: 0.2107
