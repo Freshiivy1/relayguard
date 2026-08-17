@@ -1,0 +1,1332 @@
+{
+  "split": "test",
+  "n_samples": 436,
+  "detectors": {
+    "gbm": {
+      "overall": {
+        "auc": 0.9841643258426966,
+        "eer": 0.04887640449438205,
+        "hit_at_fpr_1": 0.6375,
+        "hit_at_fpr_2": 0.825,
+        "hit_at_fpr_5": 0.95
+      },
+      "threshold_at_fpr_2": 0.6552876993852335,
+      "by_label": [
+        {
+          "slice": "direct",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0375,
+          "auc_vs_relay": 0.97296875
+        },
+        {
+          "slice": "hardneg_headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9878472222222223
+        },
+        {
+          "slice": "hardneg_ns",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9957812500000001
+        },
+        {
+          "slice": "hardneg_reverb",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0375,
+          "auc_vs_relay": 0.9721875
+        },
+        {
+          "slice": "hardneg_tv",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9940625000000001
+        },
+        {
+          "slice": "relay",
+          "n": 80,
+          "n_relay": 80,
+          "recall": 0.825
+        }
+      ],
+      "by_codec2": [
+        {
+          "slice": "gsm",
+          "n": 15,
+          "n_relay": 15,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.9
+        },
+        {
+          "slice": "none",
+          "n": 356,
+          "n_relay": 0,
+          "fpr": 0.016853932584269662,
+          "auc_vs_relay": 0.9841643258426966
+        },
+        {
+          "slice": "opus",
+          "n": 55,
+          "n_relay": 55,
+          "recall": 0.7636363636363637
+        }
+      ],
+      "by_device": [
+        {
+          "slice": "bluetooth_mini",
+          "n": 20,
+          "n_relay": 20,
+          "recall": 0.95
+        },
+        {
+          "slice": "budget_android",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 1.0
+        },
+        {
+          "slice": "car_speaker",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.5
+        },
+        {
+          "slice": "headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9878472222222223
+        },
+        {
+          "slice": "iphone_earpiece",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 1.0
+        },
+        {
+          "slice": "laptop_speaker",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.625
+        },
+        {
+          "slice": "none",
+          "n": 320,
+          "n_relay": 0,
+          "fpr": 0.01875,
+          "auc_vs_relay": 0.98375
+        },
+        {
+          "slice": "pixel_speaker",
+          "n": 14,
+          "n_relay": 14,
+          "recall": 0.7142857142857143
+        },
+        {
+          "slice": "tablet",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 1.0
+        },
+        {
+          "slice": "watch_speaker",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.8333333333333334
+        }
+      ],
+      "by_codec_pair": [
+        {
+          "slice": "gsm->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        },
+        {
+          "slice": "gsm->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "gsm->none",
+          "n": 106,
+          "n_relay": 0,
+          "fpr": 0.018867924528301886,
+          "auc_vs_relay": 0.9765330188679245
+        },
+        {
+          "slice": "gsm->opus",
+          "n": 42,
+          "n_relay": 42,
+          "recall": 0.7857142857142857
+        },
+        {
+          "slice": "mulaw->gsm",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw->none",
+          "n": 127,
+          "n_relay": 0,
+          "fpr": 0.031496062992125984,
+          "auc_vs_relay": 0.9796259842519686
+        },
+        {
+          "slice": "mulaw->opus",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.8571428571428571
+        },
+        {
+          "slice": "opus->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        },
+        {
+          "slice": "opus->mulaw",
+          "n": 4,
+          "n_relay": 4,
+          "recall": 0.75
+        },
+        {
+          "slice": "opus->none",
+          "n": 123,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9954268292682926
+        },
+        {
+          "slice": "opus->opus",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.5
+        }
+      ]
+    },
+    "cnn": {
+      "overall": {
+        "auc": 0.9976825842696628,
+        "eer": 0.013904494382022483,
+        "hit_at_fpr_1": 0.975,
+        "hit_at_fpr_2": 0.975,
+        "hit_at_fpr_5": 0.975
+      },
+      "threshold_at_fpr_2": 0.5796774732825611,
+      "by_label": [
+        {
+          "slice": "direct",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9976562499999999
+        },
+        {
+          "slice": "hardneg_headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9958333333333333
+        },
+        {
+          "slice": "hardneg_ns",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.99921875
+        },
+        {
+          "slice": "hardneg_reverb",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0125,
+          "auc_vs_relay": 0.99515625
+        },
+        {
+          "slice": "hardneg_tv",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.99953125
+        },
+        {
+          "slice": "relay",
+          "n": 80,
+          "n_relay": 80,
+          "recall": 0.975
+        }
+      ],
+      "by_codec2": [
+        {
+          "slice": "gsm",
+          "n": 15,
+          "n_relay": 15,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 1.0
+        },
+        {
+          "slice": "none",
+          "n": 356,
+          "n_relay": 0,
+          "fpr": 0.0028089887640449437,
+          "auc_vs_relay": 0.9976825842696628
+        },
+        {
+          "slice": "opus",
+          "n": 55,
+          "n_relay": 55,
+          "recall": 0.9636363636363636
+        }
+      ],
+      "by_device": [
+        {
+          "slice": "bluetooth_mini",
+          "n": 20,
+          "n_relay": 20,
+          "recall": 1.0
+        },
+        {
+          "slice": "budget_android",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 1.0
+        },
+        {
+          "slice": "car_speaker",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.9
+        },
+        {
+          "slice": "headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9958333333333333
+        },
+        {
+          "slice": "iphone_earpiece",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 1.0
+        },
+        {
+          "slice": "laptop_speaker",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.875
+        },
+        {
+          "slice": "none",
+          "n": 320,
+          "n_relay": 0,
+          "fpr": 0.003125,
+          "auc_vs_relay": 0.997890625
+        },
+        {
+          "slice": "pixel_speaker",
+          "n": 14,
+          "n_relay": 14,
+          "recall": 1.0
+        },
+        {
+          "slice": "tablet",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 1.0
+        },
+        {
+          "slice": "watch_speaker",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        }
+      ],
+      "by_codec_pair": [
+        {
+          "slice": "gsm->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        },
+        {
+          "slice": "gsm->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "gsm->none",
+          "n": 106,
+          "n_relay": 0,
+          "fpr": 0.009433962264150943,
+          "auc_vs_relay": 0.9964622641509434
+        },
+        {
+          "slice": "gsm->opus",
+          "n": 42,
+          "n_relay": 42,
+          "recall": 0.9761904761904762
+        },
+        {
+          "slice": "mulaw->gsm",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw->none",
+          "n": 127,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9984251968503937
+        },
+        {
+          "slice": "mulaw->opus",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.8571428571428571
+        },
+        {
+          "slice": "opus->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        },
+        {
+          "slice": "opus->mulaw",
+          "n": 4,
+          "n_relay": 4,
+          "recall": 1.0
+        },
+        {
+          "slice": "opus->none",
+          "n": 123,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9979674796747967
+        },
+        {
+          "slice": "opus->opus",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        }
+      ]
+    },
+    "bandwidth_forensics": {
+      "overall": {
+        "auc": 0.5366573033707865,
+        "eer": 0.5607443820224719,
+        "hit_at_fpr_1": 0.125,
+        "hit_at_fpr_2": 0.1375,
+        "hit_at_fpr_5": 0.2
+      },
+      "threshold_at_fpr_2": 0.06627712607779858,
+      "by_label": [
+        {
+          "slice": "direct",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0125,
+          "auc_vs_relay": 0.5767187500000001
+        },
+        {
+          "slice": "hardneg_headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.46111111111111114
+        },
+        {
+          "slice": "hardneg_ns",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0125,
+          "auc_vs_relay": 0.52171875
+        },
+        {
+          "slice": "hardneg_reverb",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0375,
+          "auc_vs_relay": 0.518125
+        },
+        {
+          "slice": "hardneg_tv",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.5640625
+        },
+        {
+          "slice": "relay",
+          "n": 80,
+          "n_relay": 80,
+          "recall": 0.1375
+        }
+      ],
+      "by_codec2": [
+        {
+          "slice": "gsm",
+          "n": 15,
+          "n_relay": 15,
+          "recall": 0.4
+        },
+        {
+          "slice": "mulaw",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.3
+        },
+        {
+          "slice": "none",
+          "n": 356,
+          "n_relay": 0,
+          "fpr": 0.014044943820224719,
+          "auc_vs_relay": 0.5366573033707865
+        },
+        {
+          "slice": "opus",
+          "n": 55,
+          "n_relay": 55,
+          "recall": 0.03636363636363636
+        }
+      ],
+      "by_device": [
+        {
+          "slice": "bluetooth_mini",
+          "n": 20,
+          "n_relay": 20,
+          "recall": 0.15
+        },
+        {
+          "slice": "budget_android",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.25
+        },
+        {
+          "slice": "car_speaker",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.0
+        },
+        {
+          "slice": "headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.46111111111111114
+        },
+        {
+          "slice": "iphone_earpiece",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.5714285714285714
+        },
+        {
+          "slice": "laptop_speaker",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.0
+        },
+        {
+          "slice": "none",
+          "n": 320,
+          "n_relay": 0,
+          "fpr": 0.015625,
+          "auc_vs_relay": 0.54515625
+        },
+        {
+          "slice": "pixel_speaker",
+          "n": 14,
+          "n_relay": 14,
+          "recall": 0.07142857142857142
+        },
+        {
+          "slice": "tablet",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.0
+        },
+        {
+          "slice": "watch_speaker",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        }
+      ],
+      "by_codec_pair": [
+        {
+          "slice": "gsm->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.5
+        },
+        {
+          "slice": "gsm->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.3333333333333333
+        },
+        {
+          "slice": "gsm->none",
+          "n": 106,
+          "n_relay": 0,
+          "fpr": 0.009433962264150943,
+          "auc_vs_relay": 0.35058962264150945
+        },
+        {
+          "slice": "gsm->opus",
+          "n": 42,
+          "n_relay": 42,
+          "recall": 0.047619047619047616
+        },
+        {
+          "slice": "mulaw->gsm",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.3333333333333333
+        },
+        {
+          "slice": "mulaw->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.3333333333333333
+        },
+        {
+          "slice": "mulaw->none",
+          "n": 127,
+          "n_relay": 0,
+          "fpr": 0.031496062992125984,
+          "auc_vs_relay": 0.368996062992126
+        },
+        {
+          "slice": "mulaw->opus",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.0
+        },
+        {
+          "slice": "opus->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.3333333333333333
+        },
+        {
+          "slice": "opus->mulaw",
+          "n": 4,
+          "n_relay": 4,
+          "recall": 0.25
+        },
+        {
+          "slice": "opus->none",
+          "n": 123,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.8701219512195122
+        },
+        {
+          "slice": "opus->opus",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.0
+        }
+      ]
+    },
+    "reverb": {
+      "overall": {
+        "auc": 0.78374297752809,
+        "eer": 0.2875,
+        "hit_at_fpr_1": 0.025,
+        "hit_at_fpr_2": 0.175,
+        "hit_at_fpr_5": 0.3
+      },
+      "threshold_at_fpr_2": 0.8037953419610288,
+      "by_label": [
+        {
+          "slice": "direct",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.8371875000000001
+        },
+        {
+          "slice": "hardneg_headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.8878472222222222
+        },
+        {
+          "slice": "hardneg_ns",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.885
+        },
+        {
+          "slice": "hardneg_reverb",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0625,
+          "auc_vs_relay": 0.53125
+        },
+        {
+          "slice": "hardneg_tv",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.8346875
+        },
+        {
+          "slice": "relay",
+          "n": 80,
+          "n_relay": 80,
+          "recall": 0.175
+        }
+      ],
+      "by_codec2": [
+        {
+          "slice": "gsm",
+          "n": 15,
+          "n_relay": 15,
+          "recall": 0.13333333333333333
+        },
+        {
+          "slice": "mulaw",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.5
+        },
+        {
+          "slice": "none",
+          "n": 356,
+          "n_relay": 0,
+          "fpr": 0.014044943820224719,
+          "auc_vs_relay": 0.78374297752809
+        },
+        {
+          "slice": "opus",
+          "n": 55,
+          "n_relay": 55,
+          "recall": 0.12727272727272726
+        }
+      ],
+      "by_device": [
+        {
+          "slice": "bluetooth_mini",
+          "n": 20,
+          "n_relay": 20,
+          "recall": 0.3
+        },
+        {
+          "slice": "budget_android",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.125
+        },
+        {
+          "slice": "car_speaker",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.2
+        },
+        {
+          "slice": "headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.8878472222222222
+        },
+        {
+          "slice": "iphone_earpiece",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.0
+        },
+        {
+          "slice": "laptop_speaker",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.125
+        },
+        {
+          "slice": "none",
+          "n": 320,
+          "n_relay": 0,
+          "fpr": 0.015625,
+          "auc_vs_relay": 0.7720312500000001
+        },
+        {
+          "slice": "pixel_speaker",
+          "n": 14,
+          "n_relay": 14,
+          "recall": 0.14285714285714285
+        },
+        {
+          "slice": "tablet",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.14285714285714285
+        },
+        {
+          "slice": "watch_speaker",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        }
+      ],
+      "by_codec_pair": [
+        {
+          "slice": "gsm->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        },
+        {
+          "slice": "gsm->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.3333333333333333
+        },
+        {
+          "slice": "gsm->none",
+          "n": 106,
+          "n_relay": 0,
+          "fpr": 0.02830188679245283,
+          "auc_vs_relay": 0.7528301886792452
+        },
+        {
+          "slice": "gsm->opus",
+          "n": 42,
+          "n_relay": 42,
+          "recall": 0.09523809523809523
+        },
+        {
+          "slice": "mulaw->gsm",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.0
+        },
+        {
+          "slice": "mulaw->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.3333333333333333
+        },
+        {
+          "slice": "mulaw->none",
+          "n": 127,
+          "n_relay": 0,
+          "fpr": 0.007874015748031496,
+          "auc_vs_relay": 0.7964566929133858
+        },
+        {
+          "slice": "mulaw->opus",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.42857142857142855
+        },
+        {
+          "slice": "opus->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        },
+        {
+          "slice": "opus->mulaw",
+          "n": 4,
+          "n_relay": 4,
+          "recall": 0.75
+        },
+        {
+          "slice": "opus->none",
+          "n": 123,
+          "n_relay": 0,
+          "fpr": 0.008130081300813009,
+          "auc_vs_relay": 0.7972560975609755
+        },
+        {
+          "slice": "opus->opus",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.0
+        }
+      ]
+    },
+    "distortion": {
+      "overall": {
+        "auc": 0.8669943820224719,
+        "eer": 0.22752808988764045,
+        "hit_at_fpr_1": 0.2,
+        "hit_at_fpr_2": 0.2375,
+        "hit_at_fpr_5": 0.475
+      },
+      "threshold_at_fpr_2": 0.7927152283290175,
+      "by_label": [
+        {
+          "slice": "direct",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9264062500000001
+        },
+        {
+          "slice": "hardneg_headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.7149305555555555
+        },
+        {
+          "slice": "hardneg_ns",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.878125
+        },
+        {
+          "slice": "hardneg_reverb",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.075,
+          "auc_vs_relay": 0.831875
+        },
+        {
+          "slice": "hardneg_tv",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0125,
+          "auc_vs_relay": 0.9
+        },
+        {
+          "slice": "relay",
+          "n": 80,
+          "n_relay": 80,
+          "recall": 0.2375
+        }
+      ],
+      "by_codec2": [
+        {
+          "slice": "gsm",
+          "n": 15,
+          "n_relay": 15,
+          "recall": 0.13333333333333333
+        },
+        {
+          "slice": "mulaw",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.2
+        },
+        {
+          "slice": "none",
+          "n": 356,
+          "n_relay": 0,
+          "fpr": 0.019662921348314606,
+          "auc_vs_relay": 0.8669943820224719
+        },
+        {
+          "slice": "opus",
+          "n": 55,
+          "n_relay": 55,
+          "recall": 0.2727272727272727
+        }
+      ],
+      "by_device": [
+        {
+          "slice": "bluetooth_mini",
+          "n": 20,
+          "n_relay": 20,
+          "recall": 0.4
+        },
+        {
+          "slice": "budget_android",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.375
+        },
+        {
+          "slice": "car_speaker",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.1
+        },
+        {
+          "slice": "headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.7149305555555555
+        },
+        {
+          "slice": "iphone_earpiece",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.14285714285714285
+        },
+        {
+          "slice": "laptop_speaker",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.0
+        },
+        {
+          "slice": "none",
+          "n": 320,
+          "n_relay": 0,
+          "fpr": 0.021875,
+          "auc_vs_relay": 0.8841015625
+        },
+        {
+          "slice": "pixel_speaker",
+          "n": 14,
+          "n_relay": 14,
+          "recall": 0.2857142857142857
+        },
+        {
+          "slice": "tablet",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.14285714285714285
+        },
+        {
+          "slice": "watch_speaker",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        }
+      ],
+      "by_codec_pair": [
+        {
+          "slice": "gsm->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        },
+        {
+          "slice": "gsm->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.6666666666666666
+        },
+        {
+          "slice": "gsm->none",
+          "n": 106,
+          "n_relay": 0,
+          "fpr": 0.009433962264150943,
+          "auc_vs_relay": 0.8551886792452831
+        },
+        {
+          "slice": "gsm->opus",
+          "n": 42,
+          "n_relay": 42,
+          "recall": 0.30952380952380953
+        },
+        {
+          "slice": "mulaw->gsm",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.0
+        },
+        {
+          "slice": "mulaw->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 0.0
+        },
+        {
+          "slice": "mulaw->none",
+          "n": 127,
+          "n_relay": 0,
+          "fpr": 0.023622047244094488,
+          "auc_vs_relay": 0.881496062992126
+        },
+        {
+          "slice": "mulaw->opus",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 0.14285714285714285
+        },
+        {
+          "slice": "opus->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        },
+        {
+          "slice": "opus->mulaw",
+          "n": 4,
+          "n_relay": 4,
+          "recall": 0.0
+        },
+        {
+          "slice": "opus->none",
+          "n": 123,
+          "n_relay": 0,
+          "fpr": 0.024390243902439025,
+          "auc_vs_relay": 0.8621951219512195
+        },
+        {
+          "slice": "opus->opus",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 0.16666666666666666
+        }
+      ]
+    },
+    "cnn_gbm_avg": {
+      "overall": {
+        "auc": 0.9964887640449438,
+        "eer": 0.023735955056179786,
+        "hit_at_fpr_1": 0.925,
+        "hit_at_fpr_2": 0.975,
+        "hit_at_fpr_5": 0.9875
+      },
+      "threshold_at_fpr_2": 0.4300790621254966,
+      "by_label": [
+        {
+          "slice": "direct",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0375,
+          "auc_vs_relay": 0.9942187499999999
+        },
+        {
+          "slice": "hardneg_headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.996875
+        },
+        {
+          "slice": "hardneg_ns",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9993749999999999
+        },
+        {
+          "slice": "hardneg_reverb",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.05,
+          "auc_vs_relay": 0.99375
+        },
+        {
+          "slice": "hardneg_tv",
+          "n": 80,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.9984375
+        },
+        {
+          "slice": "relay",
+          "n": 80,
+          "n_relay": 80,
+          "recall": 0.975
+        }
+      ],
+      "by_codec2": [
+        {
+          "slice": "gsm",
+          "n": 15,
+          "n_relay": 15,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 1.0
+        },
+        {
+          "slice": "none",
+          "n": 356,
+          "n_relay": 0,
+          "fpr": 0.019662921348314606,
+          "auc_vs_relay": 0.9964887640449438
+        },
+        {
+          "slice": "opus",
+          "n": 55,
+          "n_relay": 55,
+          "recall": 0.9636363636363636
+        }
+      ],
+      "by_device": [
+        {
+          "slice": "bluetooth_mini",
+          "n": 20,
+          "n_relay": 20,
+          "recall": 1.0
+        },
+        {
+          "slice": "budget_android",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 1.0
+        },
+        {
+          "slice": "car_speaker",
+          "n": 10,
+          "n_relay": 10,
+          "recall": 0.9
+        },
+        {
+          "slice": "headset",
+          "n": 36,
+          "n_relay": 0,
+          "fpr": 0.0,
+          "auc_vs_relay": 0.996875
+        },
+        {
+          "slice": "iphone_earpiece",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 1.0
+        },
+        {
+          "slice": "laptop_speaker",
+          "n": 8,
+          "n_relay": 8,
+          "recall": 0.875
+        },
+        {
+          "slice": "none",
+          "n": 320,
+          "n_relay": 0,
+          "fpr": 0.021875,
+          "auc_vs_relay": 0.9964453125
+        },
+        {
+          "slice": "pixel_speaker",
+          "n": 14,
+          "n_relay": 14,
+          "recall": 1.0
+        },
+        {
+          "slice": "tablet",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 1.0
+        },
+        {
+          "slice": "watch_speaker",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        }
+      ],
+      "by_codec_pair": [
+        {
+          "slice": "gsm->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        },
+        {
+          "slice": "gsm->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "gsm->none",
+          "n": 106,
+          "n_relay": 0,
+          "fpr": 0.02830188679245283,
+          "auc_vs_relay": 0.9948113207547169
+        },
+        {
+          "slice": "gsm->opus",
+          "n": 42,
+          "n_relay": 42,
+          "recall": 0.9523809523809523
+        },
+        {
+          "slice": "mulaw->gsm",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw->mulaw",
+          "n": 3,
+          "n_relay": 3,
+          "recall": 1.0
+        },
+        {
+          "slice": "mulaw->none",
+          "n": 127,
+          "n_relay": 0,
+          "fpr": 0.023622047244094488,
+          "auc_vs_relay": 0.996259842519685
+        },
+        {
+          "slice": "mulaw->opus",
+          "n": 7,
+          "n_relay": 7,
+          "recall": 1.0
+        },
+        {
+          "slice": "opus->gsm",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        },
+        {
+          "slice": "opus->mulaw",
+          "n": 4,
+          "n_relay": 4,
+          "recall": 1.0
+        },
+        {
+          "slice": "opus->none",
+          "n": 123,
+          "n_relay": 0,
+          "fpr": 0.008130081300813009,
+          "auc_vs_relay": 0.9981707317073171
+        },
+        {
+          "slice": "opus->opus",
+          "n": 6,
+          "n_relay": 6,
+          "recall": 1.0
+        }
+      ]
+    }
+  }
+}
